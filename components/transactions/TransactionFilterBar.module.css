@@ -1,0 +1,29 @@
+.bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 200px 180px 112px;
+  align-items: end;
+  gap: var(--space-3);
+}
+
+.clear {
+  justify-self: start;
+  animation: fade-in var(--duration-normal) var(--ease-out) both;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateX(calc(var(--space-2) * -1));
+  }
+}
+
+@media (max-width: 720px) {
+  .bar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .search,
+  .clear {
+    grid-column: 1 / -1;
+  }
+}
