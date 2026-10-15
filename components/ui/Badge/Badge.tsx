@@ -9,13 +9,15 @@ export interface BadgeProps {
   tone?: BadgeTone
   /** Show a leading dot. */
   dot?: boolean
+  /** Pulse the dot to signal something in progress. */
+  pulse?: boolean
   className?: string
 }
 
-export function Badge({ children, tone = 'neutral', dot = false, className }: BadgeProps) {
+export function Badge({ children, tone = 'neutral', dot = false, pulse = false, className }: BadgeProps) {
   return (
     <span className={cx(styles.badge, styles[tone], className)}>
-      {dot && <span className={styles.dot} aria-hidden />}
+      {dot && <span className={cx(styles.dot, pulse && styles.pulse)} aria-hidden />}
       {children}
     </span>
   )

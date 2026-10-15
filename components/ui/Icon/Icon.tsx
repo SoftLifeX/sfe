@@ -3,6 +3,7 @@ import type { SVGProps } from 'react'
 const PATHS = {
   search: 'M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm10 2-4.35-4.35',
   close: 'M18 6 6 18M6 6l12 12',
+  check: 'M20 6 9 17l-5-5',
   'chevron-left': 'm15 18-6-6 6-6',
   'chevron-right': 'm9 18 6-6-6-6',
   'chevron-down': 'm6 9 6 6 6-6',

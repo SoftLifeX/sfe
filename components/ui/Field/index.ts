@@ -1,1 +1,1 @@
-export { Field, type FieldProps } from './Field'
+export { Field, getDescriptionId, type FieldProps } from './Field'
