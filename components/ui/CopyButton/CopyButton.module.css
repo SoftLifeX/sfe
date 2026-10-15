@@ -1,0 +1,19 @@
+.copied {
+  color: var(--color-success);
+}
+
+.copied svg {
+  animation: pop 400ms var(--ease-out);
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.5);
+  }
+  60% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

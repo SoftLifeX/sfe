@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import type { ApiErrorBody, Conversion, Currency, Rate, User } from '@/types/api'
+import type { Conversion, Currency, Rate, User } from '@/types/api'
 import { CURRENCIES } from '@/types/api'
 import { Button, Card, Input, Money, Select } from '@/components/ui'
 import { convert, getMe, getRate } from '@/lib/api/endpoints'
@@ -21,11 +21,15 @@ export default function ConvertPage() {
   const [rate, setRate] = useState<Rate>()
 
   useEffect(() => {
-    getMe().then((res) => setUser(res.data))
+    getMe()
+      .then((res) => setUser(res.data))
+      .catch(() => undefined)
   }, [])
 
   useEffect(() => {
-    getRate(from, to).then((res) => setRate(res.data))
+    getRate(from, to)
+      .then((res) => setRate(res.data))
+      .catch(() => setRate(undefined))
   }, [from, to])
 
   const value = parseMoney(amount, from) ?? 0
@@ -39,16 +43,9 @@ export default function ConvertPage() {
     setError('')
     setSubmitting(true)
     try {
-      // The client doesn't throw on 4xx/5xx, so check for an error body.
-      const res = (await convert({ from, to, amount: value })) as Partial<ApiErrorBody> & {
-        data?: Conversion
-      }
-      if (res.error) {
-        setError(res.error.message)
-      } else if (res.data) {
-        setResult(res.data)
-        setAmount('')
-      }
+      const res = await convert({ from, to, amount: value })
+      setResult(res.data)
+      setAmount('')
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.')
     } finally {
@@ -66,7 +63,7 @@ export default function ConvertPage() {
             label="From"
             options={CURRENCY_OPTIONS}
             value={from}
-            onChange={(e) => setFrom(e.target.value as Currency)}
+            onChange={(value) => setFrom(value as Currency)}
             fieldClassName={styles.currency}
           />
           <Input
@@ -93,7 +90,7 @@ export default function ConvertPage() {
           label="To"
           options={CURRENCY_OPTIONS}
           value={to}
-          onChange={(e) => setTo(e.target.value as Currency)}
+          onChange={(value) => setTo(value as Currency)}
           fieldClassName={styles.to}
         />
 

@@ -1,21 +1,57 @@
-.overlay {
+.drawer {
   position: fixed;
-  inset: 0;
-  z-index: 50;
+  inset: 0 0 0 auto;
+  width: var(--drawer-width);
+  max-width: 100%;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-overlay);
+  color: var(--color-text);
+  overflow: hidden;
+}
+
+.drawer[open] {
+  display: flex;
+}
+
+.drawer::backdrop {
   background: var(--color-overlay);
 }
 
+.drawer[open][data-state='open'] {
+  animation: slide-in var(--duration-normal) var(--ease-out) both;
+}
+
+.drawer[open][data-state='open']::backdrop {
+  animation: fade-in var(--duration-normal) var(--ease-out) both;
+}
+
+.drawer[open][data-state='closed'] {
+  animation: slide-out var(--duration-normal) var(--ease-out) both;
+}
+
+.drawer[open][data-state='closed']::backdrop {
+  animation: fade-out var(--duration-normal) var(--ease-out) both;
+}
+
 .panel {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
   display: flex;
   flex-direction: column;
-  width: var(--drawer-width);
-  max-width: 100%;
-  background: var(--color-surface);
-  box-shadow: var(--shadow-overlay);
+  width: 100%;
+  min-height: 0;
+}
+
+.handle {
+  display: none;
+  width: 36px;
+  height: 4px;
+  margin: var(--space-2) auto 0;
+  border-radius: var(--radius-full);
+  background: var(--color-border-strong);
 }
 
 .header {
@@ -32,21 +68,6 @@
   font-weight: var(--weight-bold);
 }
 
-.close {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-md);
-  color: var(--color-text-muted);
-  cursor: pointer;
-}
-
-.close:hover {
-  background: var(--color-bg);
-}
-
 .body {
   flex: 1;
   overflow-y: auto;
@@ -58,12 +79,60 @@
   border-top: 1px solid var(--color-border);
 }
 
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slide-out {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes slide-down {
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
 @media (max-width: 640px) {
-  .panel {
-    top: auto;
-    left: 0;
+  .drawer {
+    inset: auto 0 0 0;
     width: 100%;
-    max-height: 90vh;
+    height: auto;
+    max-height: 90dvh;
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+
+  .drawer[open][data-state='open'] {
+    animation-name: slide-up;
+  }
+
+  .drawer[open][data-state='closed'] {
+    animation-name: slide-down;
+  }
+
+  .handle {
+    display: block;
   }
 }
