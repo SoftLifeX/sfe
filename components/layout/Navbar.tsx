@@ -1,6 +1,5 @@
-'use client'
 import Link from 'next/link'
-import { cx } from '@/lib/cx'
+import { NavLink } from './NavLink'
 import { UserMenu } from './UserMenu'
 import styles from './Navbar.module.css'
 
@@ -11,8 +10,6 @@ const LINKS = [
 ]
 
 export function Navbar() {
-  const pathname = typeof window !== 'undefined' ? window.location.pathname : ''
-
   return (
     <header className={styles.navbar}>
       <div className={styles.inner}>
@@ -21,13 +18,9 @@ export function Navbar() {
         </Link>
         <nav className={styles.links} aria-label="Main">
           {LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={cx(styles.link, pathname === link.href && styles.active)}
-            >
+            <NavLink key={link.href} href={link.href}>
               {link.label}
-            </Link>
+            </NavLink>
           ))}
         </nav>
         <UserMenu />

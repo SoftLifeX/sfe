@@ -12,6 +12,11 @@
   border-radius: var(--radius-full);
   background: transparent;
   cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+
+.trigger:hover {
+  background: var(--color-bg);
 }
 
 .name {
@@ -29,6 +34,15 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-overlay);
+  transform-origin: top right;
+  animation: dropdown-in var(--duration-normal) var(--ease-out) both;
+}
+
+@keyframes dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--space-1) * -1)) scale(0.97);
+  }
 }
 
 .fullName {
